@@ -1,62 +1,70 @@
-var primaryDiv = $("#primaryDiv");
+var primaryDiv = $("#primaryDiv");//declaring new variable primaryDiv, and setting it equal to the id of primaryDiv in the html
 
-var today = $("#currentDay");
-var divContainer = $("#rowContainer");
+var today = $("#currentDay");//declaring new variable today, and setting it equal to the id of currentDay in the html
+var divContainer = $("#rowContainer");//declaring new variable divContainer, and setting it equal to the id of rowContainer in the html
 
-var nowTime = dayjs().hour();
+var nowTime = dayjs().hour();//declaring new variable nowTime and setting it equal to the current hour
 
-var hoursArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
+var hoursArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];//declaring new variable hoursArray, set it equal to an array with 9 string elements
 
-function dailyDate() {
-  var todaysDate = dayjs().format("MMM DD, YYYY [at] hh:mm:ss a");
-  today.text(todaysDate);
-}
-dailyDate();
+//function that was given as starter code 
+$(function () {
+    /**function for the date protion at the top of the html*/ 
+    function dailyDate() {
+        var todaysDate = dayjs().format("MMM DD, YYYY [at] hh:mm:ss a");//declare new variable todaysDate, and set it equal to the daysjs function to display todays date and time
+        today.text(todaysDate);//set variable today's text as todaysDate
+    }
+    dailyDate();//calls to the function dailyDate
+    
+    setInterval(dailyDate, 1000);//use set interval in order to make the time at the top to keep track of time in real time
+    
+    for (var x = 0; x < hoursArray.length; x++) {//standard for loop
+    var secondaryDivBlocks = $("<div></div>");//declare variable secondaryDivBlocks and set it equal to a created div element
+    var tiertiaryDivBlocks = $("<div></div>");//declare variable tiertiaryDivBlocks and set it equal to a created div element
+    var textAreaElement = $("<textarea></textarea>");//declare variable textAreaElement and set it equal to a created textarea element
+    var savingBtnElement = $("<button></button>");//declare variable savingBtnElement and set it equal to a created button element
+    var weirdiElement = $("<i></i>");//declare variable weirdiElement and set it equal to a created i element
 
-setInterval(dailyDate, 1000);
+    primaryDiv.append(secondaryDivBlocks);//append secondaryDivBlocks to primaryDiv
 
-$(document).ready(function () {
-  for (var x = 0; x < hoursArray.length; x++) {
-    var secondaryDivBlocks = $("<div></div>");
-    var tiertiaryDivBlocks = $("<div></div>");
-    var textAreaElement = $("<textarea></textarea>");
-    var savingBtnElement = $("<button></button>");
-    var weirdiElement = $("<i></i>");
+    secondaryDivBlocks.addClass(`row time-block ${colorAdd(hoursArray[x])}`);//add several classes to secondaryDivBlocks use back ticks in order to add the colorAdd funtion to it aswell
+    secondaryDivBlocks.attr("id", hoursArray[x]);//add an id to secondaryDivBlocks id is equal to hoursArray and index x
 
-    primaryDiv.append(secondaryDivBlocks);
+    tiertiaryDivBlocks.addClass("col-2 col-md-1 hour text-center py-3");//add several classes to tiertiaryDivBlocks
 
-    secondaryDivBlocks.addClass(`row time-block ${colorAdd(hoursArray[x])}`);
-    secondaryDivBlocks.attr("id", hoursArray[x]);
+    tiertiaryDivBlocks.text(timeSet(hoursArray[x]));//set the tiertiaryDivBlocks text equal to the value of timeSet function
 
-    tiertiaryDivBlocks.addClass("col-2 col-md-1 hour text-center py-3");
+    textAreaElement.addClass("col-8 col-md-10 description");//add several classes to textAreaElement
 
-    tiertiaryDivBlocks.text(timeSet(hoursArray[x]));
+    savingBtnElement.addClass(`btn saveBtn col-2 col-md-1`);//add several classes to savingBtnElement
 
-    textAreaElement.addClass("col-8 col-md-10 description");
+    weirdiElement.addClass("fas fa-save");//add several classes to weirdiElement
 
-    savingBtnElement.addClass(`btn saveBtn col-2 col-md-1`);
-
-    weirdiElement.addClass("fas fa-save");
-
+    /**append tiertiaryDivBlocks, textAreaElement, and savingBtnElement to secondaryDivBlocks*/
     secondaryDivBlocks.append(
       tiertiaryDivBlocks,
       textAreaElement,
       savingBtnElement
     );
 
-    savingBtnElement.append(weirdiElement);
+    savingBtnElement.append(weirdiElement);//append weirdiElement to savingBtnElement
 
-    savingBtnElement.attr("aria-label", "save");
+    savingBtnElement.attr("aria-label", "save");//declare an attribute for savingBtnElement  and set it equal to save 
 
-    weirdiElement.attr("aria-hidden", "true");
+    weirdiElement.attr("aria-hidden", "true");//declare an attribute for weirdiElement  and set it equal to true
 
-    textAreaElement.attr("row", "3");
+    textAreaElement.attr("row", "3");//declare an attribute for textAreaElement  and set it equal to 3
 
-    textAreaElement.text(localStorage.getItem(hoursArray[x]) || "");
+    textAreaElement.text(localStorage.getItem(hoursArray[x]) || "");//set the text of textAreaElement equal to local storage of hoursArray or and empty string
   }
-  var saveBtn = $(".saveBtn");
+  var saveBtn = $(".saveBtn");//declare variable saveBtn to all elements with the class saveBtn
 
+  /*funtion for timeSet with the parameters hoursArray*/
   function timeSet(hoursArray) {
+
+    /**switch statement for ease jsut changing the value from the array to proper times instead of military time
+     * also with the parameters of hoursArray, returns string values based on which case it falls under
+    */
     switch (hoursArray) {
       case "09":
         return "9am";
@@ -79,6 +87,7 @@ $(document).ready(function () {
     }
   }
 
+  /**event listener for the variable save button, use local storage to save values when clicked to the text area*/
   saveBtn.on("click", function () {
     localStorage.setItem(
       $(this).parent().attr("id"),
@@ -86,13 +95,14 @@ $(document).ready(function () {
     );
   });
 
+  /**function colorAdd with parameters hoursArray*/
   function colorAdd(hoursArray) {
-    if (hoursArray < nowTime) {
-      return "past";
-    } else if (hoursArray > nowTime) {
-      return "future";
-    } else {
-      return "present";
+    if (hoursArray < nowTime) {//if value of hoursArray is less then the value of variable nowTime
+      return "past";//return string past
+    } else if (hoursArray > nowTime) {//else if value of hoursArray is greater then the value of variable nowTime
+      return "future";//return string future
+    } else {//if both conditions aren't met
+      return "present";// return string present
     }
   }
 });
