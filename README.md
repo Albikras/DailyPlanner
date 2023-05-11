@@ -46,9 +46,9 @@ SOFTWARE.
 
 ## Links
 
-Github:
-Deployed Application:
+Github: https://github.com/Albikras/DailyPlanner
+Deployed Application: https://albikras.github.io/DailyPlanner/
 
 ## Screenshot Of Deployed Application
 
-![this is a screenshot of the deployed application]()
+![this is a screenshot of the deployed application](./assets/images/anotherScreenshot.png)
