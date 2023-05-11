@@ -87,7 +87,7 @@ $(function () {
     }
   }
 
-  /**event listener for the variable save button, use local storage to save values when clicked to the text area*/
+  /**event listener for the variable saveBtn, use local storage to save values when clicked to the text area*/
   saveBtn.on("click", function () {
     localStorage.setItem(
       $(this).parent().attr("id"),
